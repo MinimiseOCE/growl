@@ -12,6 +12,7 @@ module.exports = {
     fontFamily: {
       title: ["Skranji"],
       header: ["Seaweed Script"],
+      body: ["Open Sans", "sans-serif"],
     },
     extend: {},
   },
