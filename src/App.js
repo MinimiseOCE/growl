@@ -13,16 +13,30 @@ function App() {
 
   function addList(type, name) {
     if (type == "habit") {
-      setHabits([...habits, name]);
-      localStorage.setItem("habits", JSON.stringify(habits));
-    }
-    if (type == "todo") {
-      setTodos([...todos, name]);
-      localStorage.setItem("todos", JSON.stringify(todos));
-    }
-    if (type == "project") {
-      setProjects([...projects, name]);
-      localStorage.setItem("projects", JSON.stringify(projects));
+      if (habits) {
+        setHabits([...habits, name]);
+        localStorage.setItem("habits", JSON.stringify([...habits, name]));
+        console.log(habits);
+      } else {
+        setHabits([name]);
+        localStorage.setItem("habits", JSON.stringify([name]));
+      }
+    } else if (type == "todo") {
+      if (todos) {
+        setTodos([...todos, name]);
+        localStorage.setItem("todos", JSON.stringify([...todos, name]));
+      } else {
+        setTodos([name]);
+        localStorage.setItem("todos", JSON.stringify([name]));
+      }
+    } else {
+      if (projects) {
+        setProjects([...projects, name]);
+        localStorage.setItem("projects", JSON.stringify([...projects, name]));
+      } else {
+        setProjects([name]);
+        localStorage.setItem("projects", JSON.stringify([name]));
+      }
     }
   }
 
@@ -33,12 +47,12 @@ function App() {
     setShowAddList((current) => !current);
   };
 
-  // Add Data to local storage when data changes
+  // Load local data
   useEffect(() => {
-    setHabits([localStorage.getItem("habits")]);
-    setTodos([localStorage.getItem("todos")]);
-    setProjects([localStorage.getItem("projects")]);
-  }, []);
+    setHabits(JSON.parse(localStorage.getItem("habits")));
+    setTodos(JSON.parse(localStorage.getItem("todos")));
+    setProjects(JSON.parse(localStorage.getItem("projects")));
+  }, [type]);
 
   return (
     <div className="w-screen h-screen">
@@ -51,7 +65,12 @@ function App() {
         setType={setType}
       />
       {showAddList && (
-        <AddList setShow={hideAddList} type={type} setType={setType} />
+        <AddList
+          setShow={hideAddList}
+          type={type}
+          setType={setType}
+          addList={addList}
+        />
       )}
     </div>
   );

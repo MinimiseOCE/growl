@@ -1,4 +1,6 @@
 export default function AddList(props) {
+  let body = "";
+
   return (
     <div className="w-screen h-screen flex justify-center items-center backdrop-blur-md absolute left-0 top-0">
       <div className="w-64 h-64 md:w-1/6 md:h-1/3 bg-green rounded-lg border-solid border-2 border-brown flex flex-col items-center p-4 gap-6">
@@ -6,8 +8,19 @@ export default function AddList(props) {
         <div className="flex flex-col gap-1">
           <h2>List Name</h2>
           <div className="flex gap-2 items-center">
-            <input className="rounded p-2"></input>
-            <button className="bg-white rounded-full text-2xl w-8 h-8 border-solid border border-brown border-opacity-70 hover:bg-dark-grey hover:border-opacity-100">
+            <input
+              className="rounded p-2"
+              onChange={(event) => {
+                body = event.target.value;
+              }}
+            ></input>
+            <button
+              className="bg-white rounded-full text-2xl w-8 h-8 border-solid border border-brown border-opacity-70 hover:bg-dark-grey hover:border-opacity-100"
+              onClick={() => {
+                props.addList(props.type, body);
+                props.setShow();
+              }}
+            >
               +
             </button>
           </div>
